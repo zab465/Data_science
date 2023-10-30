@@ -1,0 +1,66 @@
+---
+title: "Assignment 2 Function Walkthrough"
+output: html_document
+date: "2023-10-30"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+### The tibble_units Function
+
+This tibble_units function is designed for the trees data set and any other data set that has numeric variables that may require conversion into the metric system from inches. It does so for the first variable of the data. The default of the function is simply to convert the input data into a tibble. 
+
+It takes two arguments: data, and action. Action can be one of the following: 
+
+* "metre" (converts from inches to metres)
+* "mm" (converts from inches to millimetres)
+Below I exemplify the outputs that can be yielded by this function. 
+
+#### Converting to metres:
+
+As it can be seen in the below output of the function, the original measurements were given in inches, and were then multiplied to achieve the same tree circumference but in metres. 
+```{r}
+#the function 
+data("trees")
+
+#The function will convert the data.frame into a tibble, and take optional arguments for unit conversion
+tibble_units <- function(data, action){
+  if (!is.data.frame(data)){
+    stop("Input is not a data frame.")
+    }else if (action == "mm"){
+      mm <- data[, 1] * 25.4
+      return(mm)
+    }else if (action == "metre"){
+      mtr <- data[, 1] * 0.0254
+      return(mtr)
+    }else{
+      tibble::as_tibble(data)
+    }
+  }
+```
+```{r}
+#showing the original values in inches
+head(trees[,1])
+#showing modified values in metres
+head(tibble_units(trees, "metre"))
+```
+
+#### Converting to millimetres
+
+Using "mm" as an argument, we achieve he measurements in millimetres. 
+```{r}
+#showing modified values in millimetres
+head(tibble_units(trees, "mm"))
+```
+
+#### Ignoring optional arguments
+
+The function can be used without second argument and will return simply the conversion of data set into a tibble.
+
+### Appendix of code
+
+```{r ref.label=knitr::all_labels(), echo=TRUE, eval=FALSE} 
+# this chunk generates the complete code appendix. 
+# eval=FALSE tells R not to run (``evaluate'') the code here (it was already run before).
+```
