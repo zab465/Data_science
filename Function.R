@@ -4,12 +4,18 @@
 
 data("trees")
 
-
-tibble_units <- function(data_set){
+tibble_units <- function(data_set, action){
   if (!is.data.frame(data_set)){
     stop("Input is not a data frame.")
-  }else{
-    tibble::as_tibble(data_set)
+    }else if (action == "mm"){
+      mm <- data_set[, 1] * 25.4
+      return(mm)
+    }else if (action == "metre"){
+      mtr <- data_set[, 1] * 0.0254
+      return(mtr)
+    }else{
+      tibble::as_tibble(data_set)
+    }
   }
-}
+
 
